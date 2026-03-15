@@ -5,7 +5,7 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContext"; 
 import { Play, Clock, Save, Award, Code2, Terminal, Cpu, CheckCircle, RotateCcw, Loader, Sparkles, BookOpen } from "lucide-react";
 import { motion } from "framer-motion";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 const CodingTest = () => {
   const { user } = useAuth(); 
   
@@ -49,9 +49,10 @@ const CodingTest = () => {
     setStage("loading");
 
     try {
-        const res = await axios.post("http://127.0.0.1:8000/code/generate-questions", { 
+           const res = await axios.post(`${API_URL}/code/generate-questions`, { 
             level: level,
             count: 3
+            
         });
         setupExam(res.data.questions);
     } catch (error) {
@@ -115,7 +116,8 @@ const CodingTest = () => {
       formData.append("language", answerData.lang);
       formData.append("question", currentQ.desc);
 
-      const res = await axios.post("http://127.0.0.1:8000/code/submit", formData);
+    const res = await axios.post(`${API_URL}/code/submit`, formData);
+
       const resultText = res.data.result;
       let status = resultText.includes("STATUS: PASSED") ? "Passed" : "Failed";
 
@@ -142,7 +144,7 @@ const CodingTest = () => {
 
     if (user?.email) {
         try {
-            await axios.post("http://127.0.0.1:8000/dashboard/save", {
+              await axios.post(`${API_URL}/dashboard/save`, {
                 email: user.email,
                 type: "coding",
                 topic: `DSA Challenge (${level})`,

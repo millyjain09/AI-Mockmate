@@ -5,7 +5,7 @@ import axios from "axios";
 // BUG FIX: Strictly using your original working icons (UploadCloud) to prevent crashes
 import { UploadCloud, Play, BookOpen, Clock, Settings, Briefcase, FileText, Star } from "lucide-react";
 import { motion } from "framer-motion";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 const SetupInterview = () => {
   const navigate = useNavigate();
   
@@ -27,7 +27,7 @@ const SetupInterview = () => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-      await axios.post("http://127.0.0.1:8000/interview/upload-resume", formData);
+     await axios.post(`${API_URL}/interview/upload-resume`, formData);
       alert("Resume Uploaded & Analyzed! ✅");
     } catch (error) {
       alert("Resume upload failed.");

@@ -3,7 +3,9 @@ import Navbar from "../components/Navbar";
 import axios from "axios";
 import { motion, AnimatePresence } from "framer-motion";
 import { Mic, Square, Volume2, ArrowLeft, RefreshCw, Briefcase, Building2, Presentation, BookOpen, AlertCircle, MessageCircle, Sparkles, ArrowRight, Loader } from "lucide-react";
-import LaserFlow from "../components/LaserFlow"; 
+import LaserFlow from "../components/LaserFlow";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 
 const EnglishPractice = () => {
   // --- STATES (UNTOUCHED LOGIC) ---
@@ -58,7 +60,7 @@ const EnglishPractice = () => {
     formData.append("mode", topic.title); 
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/english/start", formData);
+            const res = await axios.post(`${API_URL}/english/start`, formData);
       const aiMsg = res.data.message;
       addMessage("ai", aiMsg);
       speak(aiMsg);
@@ -92,7 +94,7 @@ const EnglishPractice = () => {
     formData.append("message", userText);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/english/chat", formData);
+      const res = await axios.post(`${API_URL}/english/chat`, formData);
       const aiReply = res.data.message;
       const correction = res.data.correction || null;
       addMessage("ai", aiReply, correction);

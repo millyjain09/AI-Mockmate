@@ -4,6 +4,7 @@ import { motion } from "framer-motion";
 import { User, Lock, Mail, ArrowRight, Loader } from "lucide-react";
 import axios from "axios";
 import { useAuth } from "../context/AuthContext";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -27,7 +28,7 @@ const Signup = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/auth/signup", formData);
+      const res = await axios.post(`${API_URL}/auth/signup`, formData);
       
       if (res.data && res.data.user) {
         // Auto-Login

@@ -5,6 +5,9 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Loader, ChevronLeft, Laptop2 } from "lucide-react";
 import axios from "axios";
 
+
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 const AuthPage = () => {
   // --- STATES & HANDLERS (Logic 100% untouched) ---
   const [isLogin, setIsLogin] = useState(true);
@@ -27,7 +30,7 @@ const AuthPage = () => {
   const handleSignup = async (e) => {
     e.preventDefault(); setError(""); setLoading(true);
     try {
-      const res = await axios.post("http://127.0.0.1:8000/auth/signup", signupData);
+      const res = await axios.post(`${API_URL}/auth/signup`, signupData);
       if (res.data?.user) { login(res.data.user); navigate("/"); }
     } catch (err) { setError(err.response?.data?.detail || "Signup Failed."); } finally { setLoading(false); }
   };

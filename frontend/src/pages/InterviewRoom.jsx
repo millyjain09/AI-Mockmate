@@ -7,6 +7,7 @@ import { Mic, Send, Volume2, XCircle, Video, VideoOff, Mic as MicIcon, MicOff as
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
 const InterviewRoom = () => {
   const navigate = useNavigate();
@@ -69,7 +70,7 @@ const InterviewRoom = () => {
       formData.append("mode", config.mode); 
       formData.append("total_questions", config.totalQuestions); 
 
-      const res = await axios.post("http://127.0.0.1:8000/interview/start", formData);
+      const res = await axios.post(`${API_URL}/interview/start`, formData);
       setQuestion(res.data.message);
       speak(res.data.message);
       setQuestionCount(1); 
@@ -118,7 +119,7 @@ const InterviewRoom = () => {
         formData.append("email", user?.email);
         formData.append("topic", config?.topic);
 
-        const res = await axios.post("http://127.0.0.1:8000/interview/end", formData);
+        const res = await axios.post(`${API_URL}/interview/end`, formData);
         localStorage.setItem("interviewResult", res.data.message);
         navigate("/result");
 
@@ -147,7 +148,7 @@ const InterviewRoom = () => {
         const userEmail = user?.email; 
         if (!userEmail) { navigate("/login"); return; }
 
-        await axios.post("http://127.0.0.1:8000/dashboard/save", {
+        await axios.post(`${API_URL}/dashboard/save`, {
             email: userEmail,
             type: "interview", 
             topic: `Tech Mock: ${config?.topic}`,

@@ -5,7 +5,7 @@ import axios from "axios";
 import { Mic, MicOff, Video, PhoneOff, User, Sparkles, MessageSquare, StopCircle, RefreshCw, Bot } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 const HRInterview = () => {
   const { user } = useAuth();
   const [isStarted, setIsStarted] = useState(false);
@@ -44,7 +44,7 @@ const HRInterview = () => {
         const formData = new FormData();
         formData.append("mode", "Job Interview");
 
-        const res = await axios.post("http://127.0.0.1:8000/english/start", formData);
+        const res = await axios.post(`${API_URL}/english/start`, formData);
         
         const introText = res.data.message;
         addMessage("ai", introText);
@@ -67,7 +67,7 @@ const HRInterview = () => {
       const formData = new FormData();
       formData.append("message", userText);
       
-      const res = await axios.post("http://127.0.0.1:8000/english/chat", formData);
+      const res = await axios.post(`${API_URL}/english/chat`, formData);
       
       const aiReply = res.data.message;
       addMessage("ai", aiReply);

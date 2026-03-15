@@ -10,6 +10,8 @@ import {
 import { 
   AreaChart, Area, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, ReferenceLine 
 } from 'recharts';
+const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 
 const Dashboard = () => {
   const { user } = useAuth(); 
@@ -27,7 +29,7 @@ const Dashboard = () => {
     const fetchStats = async () => {
       if (user?.email) {
         try {
-          const res = await axios.get(`http://127.0.0.1:8000/dashboard/stats/${user.email}`);
+        const res = await axios.get(`${API_URL}/dashboard/stats/${user.email}`);
           if (res.data) setStats(res.data);
         } catch (err) { 
           console.error("Error fetching stats:", err);
