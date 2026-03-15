@@ -1,0 +1,51 @@
+[
+    {
+        "email": "milly@gmail.com",
+        "type": "coding",
+        "topic": "DSA Challenge (Fresher)",
+        "score": 0,
+        "date": "2026-02-06"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "interview",
+        "topic": "Tech Mock: React JS",
+        "score": 95,
+        "date": "2026-02-09"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "interview",
+        "topic": "Tech Mock: React JS",
+        "score": 95,
+        "date": "2026-02-09"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "interview",
+        "topic": "Tech Mock: React JS",
+        "score": 95,
+        "date": "2026-02-09"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "interview",
+        "topic": "Tech Mock: React JS",
+        "score": 50,
+        "date": "2026-02-11"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "interview",
+        "topic": "Tech Mock: React JS",
+        "score": 50,
+        "date": "2026-02-11"
+    },
+    {
+        "email": "milly@gmail.com",
+        "type": "coding",
+        "topic": "DSA Challenge (Fresher)",
+        "score": 33,
+        "date": "2026-03-12"
+    }
+]

@@ -1,0 +1,22 @@
+/* Cleaned up App.css - Removed restrictive defaults */
+
+#root {
+  width: 100%;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  /* Removed max-width and text-align: center so full-screen UI works perfectly */
+}
+
+/* Smooth scrolling setup for the whole app */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Input / Outline resets for a cleaner look */
+input:focus, 
+select:focus, 
+textarea:focus, 
+button:focus {
+  outline: none;
+}

@@ -1,0 +1,52 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Base styles: Enterprise Dark Theme Default */
+body {
+  @apply bg-[#020617] text-slate-200 antialiased selection:bg-blue-500/30 selection:text-white;
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+}
+
+/* Jab system ya toggle se dark mode ON ho, tab bhi wahi premium theme rahe */
+.dark body {
+  @apply bg-[#020617] text-slate-200;
+}
+
+/* =========================================
+   CUSTOM SLEEK SCROLLBAR
+   ========================================= */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0b1120; /* Deep dark track */
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b; /* Greyish thumb */
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #334155; /* Lighter grey on hover */
+}
+
+/* Specific class for inner scrollable divs (like Dashboard history) */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 10px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3b82f6; /* Blue effect on hover */
+}
