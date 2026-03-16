@@ -12,9 +12,8 @@ router = APIRouter()
 
 # 👇 SECURITY NOTE: Never share your real API key in public code!
 # I have kept your variable name, but ensure this is secure in production.
-DIRECT_API_KEY = "YOUR_API_KEY_HERE" 
+DIRECT_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=DIRECT_API_KEY)
-
 # 👇 MODEL SETUP
 def get_chat_model():
     return genai.GenerativeModel('models/gemini-flash-latest')
@@ -35,7 +34,7 @@ async def upload_resume(file: UploadFile = File(...)):
         return {"message": "Resume analyzed successfully! ✅"}
     except: return {"message": "Error reading resume"}
 
-# 👇 THIS IS THE UPDATED FUNCTION
+
 @router.post("/start")
 async def start_interview(
     topic: str = Form(...), 
@@ -147,4 +146,3 @@ async def get_dashboard_stats(email: str):
         }
     except Exception as e:
         return {"error": str(e), "total_interviews": 0, "average_score": 0, "recent_history": []}
-

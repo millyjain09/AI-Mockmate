@@ -31,7 +31,7 @@ const cheatSheetContent = {
   "Python": { description: "Advanced Python & Data Science basics.", pdfUrl: "/pdfs/pythonq.pdf" },
   "Java": { description: "Java fundamentals & Collections Framework.", pdfUrl: "/pdfs/Java.pdf" },
   "C++": { description: "STL containers and memory management.", pdfUrl: "/pdfs/C++.pdf" },
-  "C": { description: "Low-level system programming.", pdfUrl: "/pdfs/c.pdf" },
+  "C": { description: "Low-level system programming.", pdfUrl: "/pdfs/C.pdf" },
   "OS": { description: "Operating Systems concepts.", pdfUrl: "/pdfs/os.pdf" },
   "HTML": { description: "HTML concepts.", pdfUrl: "/pdfs/html.pdf" },
   "CSS": { description: "CSS concepts.", pdfUrl: "/pdfs/css.pdf" },
@@ -61,7 +61,7 @@ const CheatSheets = () => {
 
       if (user?.email) {
         try {
-          const response = await axios.get(`http://127.0.0.1:8000/dashboard/stats/${user.email}`);
+          const response = await axios.get(`${import.meta.env.VITE_API_URL}/${user.email}`);
           const statsData = response.data;
           
           const newTopicsState = initialTopics.map(topic => {

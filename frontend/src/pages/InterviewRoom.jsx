@@ -86,7 +86,7 @@ const InterviewRoom = () => {
     formData.append("answer", userAnswer); 
 
     try {
-      const res = await axios.post("http://127.0.0.1:8000/interview/chat", formData);
+      const res = await axios.post(`${API_URL}/interview/chat`, formData);
       
       const aiResponse = res.data.message;
       const turnScore = res.data.score || 70; 
