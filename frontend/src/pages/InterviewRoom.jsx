@@ -51,12 +51,28 @@ const InterviewRoom = () => {
     if (transcript) setUserAnswer(transcript);
   }, [transcript]);
 
-  const speak = (text) => {
-    window.speechSynthesis.cancel(); 
-    const utterance = new SpeechSynthesisUtterance(text);
-    window.speechSynthesis.speak(utterance);
-  };
+const speak = (text) => {
+  if (!text) return;
 
+  const synth = window.speechSynthesis;
+
+  // 1. Purani aawaz ko force stop karo
+  synth.cancel();
+
+  // 2. Ek chhota sa delay (100ms) daalo taki browser buffer clear kar sake
+  setTimeout(() => {
+    const utterance = new SpeechSynthesisUtterance(text);
+    
+    // Optional: Agar voice speed zyada lag rahi hai, toh isko thoda slow kar sakte ho (Default is 1)
+    utterance.rate = 0.95; 
+    
+    // Optional: Browser ki default English voice force karne ke liye
+    // const voices = synth.getVoices();
+    // if (voices.length > 0) utterance.voice = voices.find(v => v.lang.includes('en')) || voices[0];
+
+    synth.speak(utterance);
+  }, 100); 
+};
   const startInterview = async () => {
     if (hasStarted.current || !config) return;
     hasStarted.current = true;
