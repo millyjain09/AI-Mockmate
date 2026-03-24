@@ -2,7 +2,8 @@ import React, { useState, useEffect } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
-import { Sparkles, LogOut, Code, Cpu, Users, MessageCircle, LayoutDashboard } from "lucide-react";
+import LogoImg from "../assets/logo2.png"; 
+import { LogOut, Code, Cpu, Users, MessageCircle, LayoutDashboard } from "lucide-react";
 
 const Navbar = () => {
   const { user, logout } = useAuth();
@@ -53,13 +54,11 @@ const Navbar = () => {
     { name: "English", path: "/english-practice", state: { type: "Soft Skills" }, icon: <MessageCircle size={22} /> },
   ];
 
-  // The Reusable Water Drop Glass CSS string
   const waterDropGlass = "bg-white/[0.03] backdrop-blur-2xl border border-white/10 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.4),inset_0px_-1px_2px_rgba(0,0,0,0.5),0_8px_32px_rgba(0,0,0,0.4)]";
 
   return (
     <>
       {/* ================= DESKTOP CAPSULE NAVBAR ================= */}
-      {/* BUG FIX: Added a full-width wrapper with flex-justify-center so Framer Motion doesn't break alignment */}
       <div className="fixed top-8 left-0 w-full z-50 hidden md:flex justify-center pointer-events-none">
         <motion.nav 
           initial={{ y: -50, opacity: 0 }}
@@ -69,15 +68,21 @@ const Navbar = () => {
         >
           <div className={`${waterDropGlass} rounded-full p-2 flex items-center gap-6`}>
             
-            {/* Logo */}
-            <Link to="/" className="flex items-center gap-2 px-4 group">
-              <Sparkles size={16} className="text-white group-hover:rotate-12 transition-transform duration-300" />
-              <span className="text-sm font-bold text-white tracking-tighter uppercase italic">
-                MockMate
-              </span>
-            </Link>
+            {/* Logo Section - Wrapper added for tight grouping */}
+            <Link to="/" className="flex items-center gap-2 group px-4 shrink-0">
+  <img 
+    src={LogoImg} 
+    alt="MockMate Logo" 
 
-            {/* Core Links with Spring Hover */}
+    className="h-10 w-14 object-cover object-center group-hover:scale-105 transition-transform duration-300" 
+  />
+  <span className="text-sm font-bold text-white tracking-tighter uppercase italic leading-none">
+    MockMate
+  </span>
+</Link>
+   
+
+            {/* Core Links */}
             <div className="flex items-center">
               {navLinks.map((link) => {
                 const isActive = location.pathname === link.path;
@@ -92,7 +97,6 @@ const Navbar = () => {
                       isActive ? "text-white" : "text-gray-400 hover:text-white"
                     }`}
                   >
-                    {/* Water Drop Hover Pill */}
                     <AnimatePresence>
                       {hoveredPath === link.path && (
                         <motion.span
@@ -110,16 +114,14 @@ const Navbar = () => {
                 );
               })}
               
-              {/* 👇 FIXED: CHEAT SHEET BUBBLE PLACED HERE FOR DESKTOP 👇 */}
-            <Link
-  to="/cheatsheets"
-  className={`relative px-5 py-2 text-[13px] font-semibold transition-colors duration-300 rounded-full z-10 ${
-    location.pathname === "/cheatsheets" ? "text-white" : "text-gray-400 hover:text-white"
-  }`}
->
-  Cheat Sheets
-</Link>
-              
+              <Link
+                to="/cheatsheets"
+                className={`relative px-5 py-2 text-[13px] font-semibold transition-colors duration-300 rounded-full z-10 ${
+                  location.pathname === "/cheatsheets" ? "text-white" : "text-gray-400 hover:text-white"
+                }`}
+              >
+                Cheat Sheets
+              </Link>
             </div>
 
             {/* Auth / Profile */}
@@ -150,20 +152,26 @@ const Navbar = () => {
       </div>
 
       {/* ================= MOBILE TOP BAR ================= */}
+      {/* ================= MOBILE TOP BAR ================= */}
       <motion.div 
         initial={{ y: 0 }}
         animate={{ y: isHidden ? "-100%" : 0 }}
         transition={{ duration: 0.3, ease: "easeInOut" }}
         className="md:hidden fixed top-0 w-full z-40 bg-black/50 backdrop-blur-xl border-b border-white/5 px-4 py-4 flex justify-between items-center"
       >
-        <div className="flex items-center gap-3">
+        <div className="flex items-center">
           <Link to="/" className="flex items-center gap-2">
-            <Sparkles size={18} className="text-white" />
-            {/* Hidden text on very small screens to make room for bubble menu */}
-            <span className="text-lg font-bold text-white tracking-tighter hidden sm:block">MockMate.</span>
+            {/* Same object-cover logic for mobile to handle the wide image */}
+            <img 
+              src={LogoImg} 
+              alt="Logo" 
+              className="h-10 w-12 object-cover object-center" 
+            />
+            {/* Maine 'hidden sm:block' hata diya hai, ab ye hamesha show hoga */}
+            <span className="text-sm font-bold text-white tracking-tighter uppercase italic leading-none">
+              MockMate
+            </span>
           </Link>
-          
-         
         </div>
         
         {user ? (
@@ -183,24 +191,12 @@ const Navbar = () => {
           initial={{ y: 0, opacity: 1 }}
           animate={isHidden ? { y: 150, opacity: 0 } : { y: 0, opacity: 1 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="w-[90vw] max-w-[400px] pointer-events-auto"
+          className="w-[90vw] max-w-[400px] pointer-events-auto relative"
         >
-          <div className={`${waterDropGlass} rounded-[2.5rem] px-4 py-3 flex justify-between items-center`}>
-            
+          <div className={`${waterDropGlass} rounded-[2.5rem] px-4 py-3 flex justify-between items-center relative`}>
             {navLinks.map((link) => {
               const isActive = location.pathname === link.path;
-              
-              if (link.isCenter) {
-                return (
-                  <Link key={link.path} to={link.path} state={link.state} className="relative -top-6">
-                      <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-transform active:scale-90 border-4 border-black ${
-                        isActive ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.5)]" : `${waterDropGlass} text-white`
-                      }`}>
-                        {link.icon}
-                      </div>
-                  </Link>
-                );
-              }
+              if (link.isCenter) return <div key="spacer" className="w-14 h-10 flex-shrink-0" />;
 
               return (
                 <Link key={link.path} to={link.path} state={link.state} className="relative p-2 flex flex-col items-center gap-1">
@@ -214,6 +210,22 @@ const Navbar = () => {
               );
             })}
           </div>
+
+          {navLinks.map((link) => {
+            if (!link.isCenter) return null;
+            const isActive = location.pathname === link.path;
+            return (
+              <div key="center-button" className="absolute left-1/2 -translate-x-1/2 -top-6 z-[100]">
+                <Link to={link.path} state={link.state} className="block">
+                    <div className={`w-14 h-14 rounded-full flex items-center justify-center transition-transform active:scale-90 border-[5px] border-[#020202] ${
+                      isActive ? "bg-white text-black shadow-[0_0_20px_rgba(255,255,255,0.5)]" : `${waterDropGlass} text-white`
+                    }`}>
+                      {link.icon}
+                    </div>
+                </Link>
+              </div>
+            );
+          })}
         </motion.div>
       </div>
       

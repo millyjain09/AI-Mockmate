@@ -101,7 +101,7 @@ const Dashboard = () => {
         <Navbar />
       </div>
 
-      <div className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-6 pt-[140px] pb-16">
+      <div className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-6 pt-1 md:pt-[100px] pb-16 md:pb-16">
         
         {/* --- WELCOME HEADER --- */}
         <motion.div 
@@ -110,7 +110,7 @@ const Dashboard = () => {
         >
           <div>
             <h1 className="text-4xl md:text-5xl font-black mb-3 text-transparent bg-clip-text bg-gradient-to-b from-white to-gray-500 tracking-tighter">
-              Overview, <span className="capitalize text-white">{getDisplayName()}</span>
+              Welcome, <span className="capitalize text-white">{getDisplayName()}</span>
             </h1>
             <p className="text-gray-500 text-sm md:text-base font-medium">
                Weekly performance growth is at <span className="text-white font-bold drop-shadow-[0_0_8px_rgba(255,255,255,0.5)]">+{stats.weekly_growth}%</span>.

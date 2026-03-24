@@ -16,10 +16,9 @@ const initialTopics = [
   { id: "cpp", name: "C++", completed: 0, total: 100, icon: <Code2 size={14}/> },
   { id: "c", name: "C", completed: 0, total: 60, icon: <Code2 size={14}/> },
   { id: "os", name: "OS", completed: 0, total: 80, icon: <Cpu size={14}/> },
-    { id: "HTML", name: "HTML", completed: 0, total: 80, icon: <Cpu size={14}/> },
+  { id: "HTML", name: "HTML", completed: 0, total: 80, icon: <Cpu size={14}/> },
   { id: "CSS", name: "CSS", completed: 0, total: 80, icon: <Cpu size={14}/> },
   { id: "JS", name: "JS", completed: 0, total: 80, icon: <Cpu size={14}/> },
-
 ];
 
 const cheatSheetContent = {
@@ -36,7 +35,6 @@ const cheatSheetContent = {
   "HTML": { description: "HTML concepts.", pdfUrl: "/pdfs/html.pdf" },
   "CSS": { description: "CSS concepts.", pdfUrl: "/pdfs/css.pdf" },
   "JS": { description: "JS concepts.", pdfUrl: "/pdfs/js.pdf" },
-
 };
 
 const CheatSheets = () => {
@@ -51,12 +49,8 @@ const CheatSheets = () => {
   
   const canvasRef = useRef(null);
 
-  // =========================================================
-  // 1. FETCH INITIAL DATA (DB + LocalStorage Fallback)
-  // =========================================================
   useEffect(() => {
     const fetchProgress = async () => {
-      // Pehle hum LocalStorage se saved progress nikalte hain
       const localSavedData = JSON.parse(localStorage.getItem('cheatSheetProgress')) || {};
 
       if (user?.email) {
@@ -70,25 +64,21 @@ const CheatSheets = () => {
                  const topicHistory = statsData.history.filter(h => h.topic.toLowerCase() === topic.name.toLowerCase());
                  dbCompleted = topicHistory.length; 
              }
-             // Local Storage aur DB mein se jo zyada bada number ho, wo set hoga! (Taaki data kabhi na ude)
              const finalCompleted = Math.max(dbCompleted, localSavedData[topic.id] || 0);
              return { ...topic, completed: finalCompleted };
           });
           setTopicsState(newTopicsState);
         } catch (error) {
           console.error("Error fetching from DB, falling back to LocalStorage:", error);
-          // Agar server band hai, tab bhi local storage se data load ho jayega
           setTopicsState(initialTopics.map(t => ({...t, completed: localSavedData[t.id] || 0})));
         }
       } else {
-         // Guest user ke liye
          setTopicsState(initialTopics.map(t => ({...t, completed: localSavedData[t.id] || 0})));
       }
     };
     fetchProgress();
   }, [user]);
 
-  // 2. PAGE LOAD ANIMATION FOR BUBBLES
   useEffect(() => {
     let start;
     const duration = 2000; 
@@ -103,31 +93,23 @@ const CheatSheets = () => {
     requestAnimationFrame(animate);
   }, []);
 
-  // =========================================================
-  // 🔴 3. XP TIMER LOGIC (WITH SAVE TO DB & LOCALSTORAGE) 🔴
-  // =========================================================
   useEffect(() => {
     let xpTimer;
-    
     if (activeCheatSheet) {
       xpTimer = setInterval(() => {
         setTopicsState((prevTopics) => {
           return prevTopics.map((topic) => {
             if (topic.id === activeCheatSheet.id) {
-              // 👇 CHNAGED HERE: 1% increase
-              const increment = Math.ceil(topic.total * 0.01); // +1% har tick par
+              const increment = Math.ceil(topic.total * 0.01); 
               const newCompleted = Math.min(topic.completed + increment, topic.total); 
 
               if (newCompleted !== topic.completed) {
-                // Update Modal Header Real-time
                 setActiveCheatSheet(prev => ({...prev, completed: newCompleted}));
                 
-                // SAVING TO LOCALSTORAGE (Instant persistence on refresh)
                 const savedData = JSON.parse(localStorage.getItem('cheatSheetProgress')) || {};
                 savedData[topic.id] = newCompleted;
                 localStorage.setItem('cheatSheetProgress', JSON.stringify(savedData));
 
-                // SAVING TO DATABASE (Async Backup)
                 if (user?.email) {
                     axios.post(`http://127.0.0.1:8000/dashboard/update-cheatsheet-progress`, { 
                         email: user.email, 
@@ -141,9 +123,8 @@ const CheatSheets = () => {
             return topic;
           });
         });
-      }, 120000); // 👇 CHANGED HERE: 120000 ms = 2 minutes
+      }, 120000); 
     }
-
     return () => clearInterval(xpTimer);
   }, [activeCheatSheet?.id, user]); 
 
@@ -154,13 +135,15 @@ const CheatSheets = () => {
   const packedNodes = useMemo(() => {
     const nodes = [];
     const sortedTopics = [...topicsState].sort((a, b) => b.total - a.total);
+    
+    // 👇 FIX: Bubble size logic adjusted for mobile so they don't look gigantic
+    const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+    const minR = isMobile ? 35 : 55;
+    const maxR = isMobile ? 65 : 100;
+    const maxTotal = 300; 
 
     sortedTopics.forEach((topic) => {
-      const minR = 55;
-      const maxR = 100;
-      const maxTotal = 300; 
       const r = minR + (Math.min(topic.total, maxTotal) / maxTotal) * (maxR - minR);
-
       let angle = 0;
       let radiusStep = 0;
       let placed = false;
@@ -174,7 +157,7 @@ const CheatSheets = () => {
           const dx = node.x - x;
           const dy = node.y - y;
           const distance = Math.sqrt(dx * dx + dy * dy);
-          if (distance < node.r + r + 10) { 
+          if (distance < node.r + r + (isMobile ? 5 : 10)) { 
             overlap = true;
             break;
           }
@@ -208,13 +191,13 @@ const CheatSheets = () => {
   }) : null;
 
   const waterDropGlass = "bg-white/[0.02] backdrop-blur-3xl border border-white/10 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.6)]";
-  const carvedInput = "w-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-3.5 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/30 focus:bg-black/80 shadow-[inset_0px_2px_10px_rgba(0,0,0,0.8)] transition-all font-medium";
+  const carvedInput = "w-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-3 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/30 focus:bg-black/80 shadow-[inset_0px_2px_10px_rgba(0,0,0,0.8)] transition-all font-medium";
 
   const parallaxX = (mousePos.x - window.innerWidth / 2) * -0.02;
   const parallaxY = (mousePos.y - window.innerHeight / 2) * -0.02;
 
   return (
-    <div className="min-h-screen bg-[#020202] text-gray-200 font-sans relative overflow-hidden flex flex-col" onMouseMove={handleMouseMove}>
+    <div className="min-h-[100dvh] bg-[#020202] text-gray-200 font-sans relative overflow-hidden flex flex-col" onMouseMove={handleMouseMove}>
       
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-white/[0.02] blur-[120px]"></div>
@@ -226,40 +209,39 @@ const CheatSheets = () => {
         <Navbar />
       </div>
 
-      <div className="relative z-10 flex-1 max-w-[1400px] mx-auto w-full px-4 md:px-6 pt-[120px] pb-8 flex flex-col h-screen">
-        <div className="mb-6 flex justify-between items-end">
-            <div>
-                <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/[0.05] border border-white/10 text-[10px] font-black uppercase tracking-[0.2em] text-gray-400 mb-3">
-                    <Bookmark size={12} /> Knowledge Base
-                </motion.div>
-                <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.1 }} className="text-3xl md:text-4xl font-black text-white tracking-tighter">
-                    Skill Progression
-                </motion.h1>
-            </div>
+      {/* 👇 FIX: pt-16 for mobile to remove top empty space, pb-28 to save from bottom dock */}
+      <div className="relative z-10 flex-1 max-w-[1400px] mx-auto w-full px-4 md:px-6 pt-4 md:pt-[120px] pb-28 md:pb-8 flex flex-col h-[100dvh]">
+        
+        <div className="mb-3 md:mb-6 shrink-0 mt-2">
+            <motion.h1 initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="text-2xl md:text-4xl font-black text-white tracking-tighter">
+                Skill Progression
+            </motion.h1>
         </div>
 
-        <div className="flex flex-col lg:flex-row gap-6 flex-1 min-h-0 overflow-hidden">
+        <div className="flex flex-col lg:flex-row gap-4 md:gap-6 flex-1 min-h-0 overflow-hidden">
             <motion.div 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-                className={`w-full lg:w-[320px] flex flex-col rounded-[2.5rem] p-6 h-[250px] lg:h-full shrink-0 ${waterDropGlass}`}
+                // 👇 FIX: Sidebar made compact & horizontally scrollable on mobile!
+                className={`w-full lg:w-[320px] flex flex-col rounded-3xl md:rounded-[2.5rem] p-4 md:p-6 shrink-0 ${waterDropGlass}`}
             >
-                <h3 className="font-bold text-white tracking-tight mb-4 px-1">Study Materials</h3>
-                <div className="relative mb-6">
+                <div className="relative mb-3 md:mb-6">
                     <input 
                         type="text" 
                         placeholder="Search topic..." 
                         value={searchQuery}
                         onChange={(e) => setSearchQuery(e.target.value)}
-                        className={`${carvedInput} pl-11`}
+                        className={`${carvedInput} pl-10`}
                     />
-                    <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
+                    <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                 </div>
-                <div className="flex flex-wrap gap-2.5 overflow-y-auto custom-scrollbar content-start flex-1 pr-2 pb-4">
+                
+                {/* 👇 FIX: flex-row overflow-x-auto on mobile saves vertical space! */}
+                <div className="flex flex-row md:flex-wrap gap-2.5 overflow-x-auto md:overflow-y-auto custom-scrollbar md:content-start md:flex-1 pb-2">
                     {filteredTopics.map((topic) => (
                         <button 
                             key={topic.id}
                             onClick={() => setActiveCheatSheet(topic)} 
-                            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-black/40 border border-white/5 shadow-inner hover:bg-white/[0.08] hover:border-white/20 text-gray-400 hover:text-white transition-all duration-300"
+                            className="flex items-center gap-2 px-4 py-2 rounded-xl bg-black/40 border border-white/5 shadow-inner hover:bg-white/[0.08] hover:border-white/20 text-gray-400 hover:text-white transition-all whitespace-nowrap"
                         >
                             <span className="opacity-70">{topic.icon}</span>
                             <span className="text-xs font-bold tracking-wide">{topic.name}</span>
@@ -270,24 +252,24 @@ const CheatSheets = () => {
 
             <motion.div 
                 initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.3 }}
-                className={`flex-1 relative rounded-[2.5rem] overflow-hidden ${waterDropGlass} border-white/5 bg-[#0a0a0a]/50`}
+                className={`flex-1 relative rounded-3xl md:rounded-[2.5rem] overflow-hidden ${waterDropGlass} border-white/5 bg-[#0a0a0a]/50`}
                 ref={canvasRef}
             >
                 <div className="absolute inset-0 bg-[linear-gradient(to_right,#ffffff03_1px,transparent_1px),linear-gradient(to_bottom,#ffffff03_1px,transparent_1px)] bg-[size:3rem_3rem] pointer-events-none"></div>
-                <div className="absolute top-6 right-6 z-40">
-                  <div className="bg-black/60 backdrop-blur-xl text-gray-400 p-2.5 rounded-2xl border border-white/10 shadow-lg flex items-center gap-2">
-                      <ZoomIn size={18} />
-                      <span className="text-[10px] font-bold uppercase tracking-widest px-2">Drag to pan</span>
+                <div className="absolute top-4 right-4 z-40 pointer-events-none">
+                  <div className="bg-black/60 backdrop-blur-xl text-gray-400 p-2 rounded-xl border border-white/10 shadow-lg flex items-center gap-1.5">
+                      <ZoomIn size={14} />
+                      <span className="text-[9px] font-bold uppercase tracking-widest px-1">Pan</span>
                   </div>
                 </div>
 
-                <div className="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing">
+                <div className="w-full h-full flex items-center justify-center cursor-grab active:cursor-grabbing overflow-hidden">
                   <motion.div 
                     drag 
                     dragConstraints={canvasRef}
                     animate={{ x: parallaxX, y: parallaxY }}
                     transition={{ type: "tween", ease: "easeOut", duration: 0.5 }}
-                    className="relative w-[800px] h-[800px] flex items-center justify-center"
+                    className="relative w-[600px] h-[600px] md:w-[800px] md:h-[800px] flex items-center justify-center"
                   >
                     {packedNodes.map((node) => {
                       const targetPercent = (node.completed / node.total) * 100;
@@ -321,11 +303,11 @@ const CheatSheets = () => {
                             >
                                 <span 
                                     className="text-center font-bold text-white px-2 leading-tight drop-shadow-[0_2px_4px_rgba(0,0,0,0.8)] mb-1"
-                                    style={{ fontSize: node.r < 65 ? '12px' : '15px' }}
+                                    style={{ fontSize: node.r < 50 ? '11px' : '14px' }}
                                 >
                                     {node.name}
                                 </span>
-                                <span className="text-[10px] font-black text-white bg-black/60 px-2.5 py-0.5 rounded-full border border-white/5 shadow-inner backdrop-blur-sm">
+                                <span className="text-[9px] font-black text-white bg-black/60 px-2 py-0.5 rounded-full border border-white/5 shadow-inner backdrop-blur-sm">
                                     {Math.round(currentPercent)}%
                                 </span>
                             </motion.div>
@@ -338,7 +320,7 @@ const CheatSheets = () => {
         </div>
       </div>
 
-      {/* ================= 🔴 UPDATED: FLOATING TOOLTIP (Percentage Only) 🔴 ================= */}
+      {/* ================= FLOATING TOOLTIP ================= */}
       {hoveredNode && !activeCheatSheet && (
         <motion.div
           initial={{ opacity: 0, scale: 0.9 }}
@@ -348,13 +330,9 @@ const CheatSheets = () => {
           style={{ left: mousePos.x + 20, top: mousePos.y + 20 }}
         >
           <h3 className="text-white font-bold text-base tracking-tight mb-2">{hoveredNode.name}</h3>
-          
-          {/* Progress Bar */}
           <div className="w-full bg-white/10 h-1.5 rounded-full mb-2 overflow-hidden">
              <div className="bg-[#4ADE80] h-full shadow-[0_0_10px_#4ADE80]" style={{ width: `${(hoveredNode.completed/hoveredNode.total)*100}%` }}></div>
           </div>
-          
-          {/* Percentage Text Only */}
           <p className="text-gray-400 font-mono text-xs font-medium bg-white/5 px-3 py-1.5 rounded-md border border-white/5 shadow-inner">
              <span className="text-[#4ADE80] font-bold text-sm">
                  {Math.round((hoveredNode.completed / hoveredNode.total) * 100)}%
@@ -363,7 +341,7 @@ const CheatSheets = () => {
         </motion.div>
       )}
 
-      {/* ================= 🔴 FULL-SCREEN PDF VIEWER 🔴 ================= */}
+      {/* ================= FULL-SCREEN PDF VIEWER ================= */}
       <AnimatePresence>
         {activeCheatSheet && (
             <motion.div 

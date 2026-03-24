@@ -5,7 +5,9 @@ import axios from "axios";
 import { Mic, MicOff, Video, PhoneOff, User, Sparkles, MessageSquare, StopCircle, RefreshCw, Bot } from "lucide-react";
 import { useAuth } from "../context/AuthContext";
 import { motion, AnimatePresence } from "framer-motion";
+
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 const HRInterview = () => {
   const { user } = useAuth();
   const [isStarted, setIsStarted] = useState(false);
@@ -119,11 +121,11 @@ const HRInterview = () => {
         <Navbar />
       </div>
 
-      {/* 👇 BUG FIX: Increased top padding (pt-[140px] and md:pt-[160px]) & allowed page scrolling (min-h-screen) */}
-      <div className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-4 md:px-8 flex flex-col gap-8 min-h-screen pt-[140px] md:pt-[160px] pb-12">
+      {/* 👇 FIX: pt-16 aur gap-4 kar diya mobile ke liye, space aur kam ho jayega! */}
+      <div className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-4 md:px-8 flex flex-col gap-4 md:gap-8 min-h-screen pt-18 md:pt-[160px] pb-12">
         
         {/* --- TOP ROW: AVATAR & USER CAMERA --- */}
-        <div className="flex flex-col md:flex-row gap-6 min-h-[320px]">
+        <div className="flex flex-col md:flex-row gap-4 md:gap-6 min-h-[320px]">
             
             {/* 1. AI HR INTERVIEWER */}
             <div className={`flex-1 relative rounded-[2.5rem] overflow-hidden flex flex-col items-center justify-center transition-all duration-500 min-h-[300px] ${waterDropGlass}`}>

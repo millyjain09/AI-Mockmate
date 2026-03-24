@@ -43,7 +43,7 @@ const Home = () => {
       </div>
 
       {/* ================= 1. HERO SECTION ================= */}
-      <div className="relative z-10 min-h-[90vh] flex items-center justify-center px-6 pt-20 pointer-events-none">
+      <div className="relative z-10 min-h-[90vh] flex items-center justify-center px-6 pt-2 md:pt-20 pointer-events-none">
         <div className="max-w-5xl mx-auto text-center flex flex-col items-center pointer-events-auto">
           
           <motion.div

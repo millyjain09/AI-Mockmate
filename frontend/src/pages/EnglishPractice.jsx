@@ -146,7 +146,7 @@ const EnglishPractice = () => {
         <Navbar />
       </div>
 
-      <div className="relative z-10 flex-1 flex flex-col max-w-5xl mx-auto w-full p-6 md:p-8 pt-24 md:pt-32">
+      <div className="relative z-10 flex-1 flex flex-col max-w-5xl mx-auto w-full p-6 md:p-8 pt-2 md:pt-32">
         
         <AnimatePresence mode="wait">
           {/* ================= STEP 1: MODERN SCENARIO SELECTION ================= */}
@@ -156,7 +156,7 @@ const EnglishPractice = () => {
               initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0, y: -20 }}
               className="flex-1 flex flex-col items-center justify-center w-full"
             >
-                <div className="text-center mb-14">
+                <div className="text-center mb-6 md:mb-14">
                    <motion.div initial={{ scale: 0.9 }} animate={{ scale: 1 }} className={`${waterDropGlass} inline-flex items-center gap-2 px-4 py-2 rounded-full text-xs font-bold uppercase tracking-widest text-white mb-6 shadow-xl`}>
                      <Sparkles size={14} /> System Ready
                    </motion.div>
@@ -175,23 +175,18 @@ const EnglishPractice = () => {
                           initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: idx * 0.1 }}
                           key={scenario.id}
                           onClick={() => startSession(scenario)}
-                          // Replaced standard box with a tall, dynamic container
                           className="group relative h-[280px] p-8 rounded-[2.5rem] bg-white/[0.01] border border-white/5 backdrop-blur-xl overflow-hidden cursor-pointer flex flex-col justify-end transition-all duration-500 hover:border-white/20 hover:bg-white/[0.04] hover:shadow-[0_20px_40px_rgba(0,0,0,0.4),inset_0_1px_1px_rgba(255,255,255,0.1)]"
                       >
-                          {/* Inner Ambient Glow on Hover */}
                           <div className="absolute inset-0 bg-gradient-to-t from-white/[0.08] to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700 pointer-events-none"></div>
 
-                          {/* Giant Holographic Watermark Icon */}
                           <div className="absolute -right-8 -bottom-8 text-white opacity-[0.02] group-hover:opacity-[0.06] group-hover:scale-110 group-hover:-translate-x-4 group-hover:-translate-y-4 transition-all duration-700 pointer-events-none">
                               {React.cloneElement(scenario.icon, { size: 180, strokeWidth: 1 })}
                           </div>
 
-                          {/* Top Icon Badge (Moves slightly down on hover for depth) */}
                           <div className="absolute top-8 left-8 flex items-center justify-center w-12 h-12 rounded-[1.2rem] bg-black/50 border border-white/10 text-gray-500 group-hover:text-white group-hover:bg-white/[0.08] group-hover:border-white/20 group-hover:translate-y-1 transition-all duration-500 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">
                               {React.cloneElement(scenario.icon, { size: 20 })}
                           </div>
 
-                          {/* Text Content (Slides up on hover to reveal CTA) */}
                           <div className="relative z-10 transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500 ease-out">
                               <h2 className="text-2xl font-bold text-gray-300 group-hover:text-white tracking-tight mb-2 transition-colors duration-300">
                                   {scenario.title}
@@ -200,7 +195,6 @@ const EnglishPractice = () => {
                                   {scenario.desc}
                               </p>
 
-                              {/* Action Text - Fades and slides in from left */}
                               <div className="mt-6 flex items-center gap-2 opacity-0 group-hover:opacity-100 transition-all duration-500 transform -translate-x-4 group-hover:translate-x-0">
                                   <span className="text-[11px] font-black tracking-[0.3em] text-white uppercase">Initiate</span>
                                   <ArrowRight size={14} className="text-white" />
@@ -279,8 +273,9 @@ const EnglishPractice = () => {
               </div>
 
               {/* Controls Dock */}
-              <div className="mt-6 flex flex-col items-center justify-center">
-                  <div className="h-6 mb-4 flex items-center justify-center">
+              {/* 👇 FIX: Added pb-28 md:pb-0 here to shift buttons UP on mobile! 👇 */}
+              <div className="mt-4 md:mt-6 flex flex-col items-center justify-center pb-28 md:pb-0">
+                  <div className="h-6 mb-2 md:mb-4 flex items-center justify-center">
                       {isListening && <span className="text-white font-black text-xs tracking-[0.2em] animate-pulse drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">LISTENING...</span>}
                       {aiSpeaking && !isListening && <span className="text-gray-400 font-bold text-xs tracking-widest flex items-center gap-2">AI SPEAKING <Loader size={12} className="animate-spin"/></span>}
                   </div>
