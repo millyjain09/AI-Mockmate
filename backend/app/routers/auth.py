@@ -45,7 +45,7 @@ async def signup(user: UserSignup):
     }
     db.users.insert_one(new_user)
 
-    # 👇 CORRECT RETURN: User data bhej rahe hain taaki Frontend Auto-Login kar sake
+   
     return {
         "message": "User created successfully",
         "user": {

@@ -273,7 +273,6 @@ const EnglishPractice = () => {
               </div>
 
               {/* Controls Dock */}
-              {/* 👇 FIX: Added pb-28 md:pb-0 here to shift buttons UP on mobile! 👇 */}
               <div className="mt-4 md:mt-6 flex flex-col items-center justify-center pb-28 md:pb-0">
                   <div className="h-6 mb-2 md:mb-4 flex items-center justify-center">
                       {isListening && <span className="text-white font-black text-xs tracking-[0.2em] animate-pulse drop-shadow-[0_0_8px_rgba(255,255,255,0.8)]">LISTENING...</span>}

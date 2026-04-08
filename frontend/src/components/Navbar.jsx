@@ -152,7 +152,6 @@ const Navbar = () => {
       </div>
 
       {/* ================= MOBILE TOP BAR ================= */}
-      {/* ================= MOBILE TOP BAR ================= */}
       <motion.div 
         initial={{ y: 0 }}
         animate={{ y: isHidden ? "-100%" : 0 }}

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom"; 
 import { useAuth } from "../context/AuthContext"; 
 import Navbar from "../components/Navbar";
 import axios from "axios";
@@ -12,9 +12,9 @@ import {
 } from 'recharts';
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
 
-
 const Dashboard = () => {
   const { user } = useAuth(); 
+  const navigate = useNavigate(); 
   const [loading, setLoading] = useState(true);
   
   const [stats, setStats] = useState({
@@ -26,6 +26,13 @@ const Dashboard = () => {
   });
 
   useEffect(() => {
+    if (user === null) {
+        navigate("/login"); 
+        return; 
+    }
+    
+    if (user === undefined) return; 
+
     const fetchStats = async () => {
       if (user?.email) {
         try {
@@ -38,8 +45,9 @@ const Dashboard = () => {
         }
       }
     };
+    
     fetchStats();
-  }, [user]);
+  }, [user, navigate]);
 
   const getDisplayName = () => user?.username || user?.email?.split("@")[0] || "Developer";
 
@@ -52,16 +60,14 @@ const Dashboard = () => {
       }))
     : [{ date: 'Start', score: 0 }];
 
-  // ================= 🔴 CUSTOM DOTTED LOADER (From your GIF) =================
+  // ================= 🔴 CUSTOM DOTTED LOADER =================
   if (loading) {
     return (
       <div className="min-h-screen bg-[#020202] flex flex-col items-center justify-center relative overflow-hidden font-sans">
-        {/* Subtle background glow for the loader */}
         <div className="absolute inset-0 z-0 flex items-center justify-center pointer-events-none">
            <div className="w-[40vw] h-[40vw] bg-white/[0.02] blur-[120px] rounded-full animate-pulse duration-1000"></div>
         </div>
         
-        {/* The Dotted Arc SVG Loader */}
         <div className="relative flex flex-col items-center justify-center z-10">
           <div className="w-16 h-16 animate-[spin_2.5s_linear_infinite]">
             <svg className="w-full h-full drop-shadow-[0_0_8px_rgba(255,255,255,0.6)]" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -70,7 +76,7 @@ const Dashboard = () => {
                 stroke="white"
                 strokeWidth="5"
                 strokeLinecap="round"
-                strokeDasharray="1 10" // This creates the perfect dotted effect
+                strokeDasharray="1 10" 
                 className="animate-pulse"
               />
             </svg>
@@ -249,7 +255,6 @@ const Dashboard = () => {
   );
 };
 
-// 👇 REUSABLE COMPONENTS
 
 const StatsCard = ({ title, value, icon, trend, trendUp, waterBubbleGlass, waterDropIcon }) => {
     return (

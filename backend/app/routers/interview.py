@@ -10,16 +10,15 @@ import re
 load_dotenv()
 router = APIRouter()
 
-# 👇 SECURITY NOTE: Never share your real API key in public code!
-# I have kept your variable name, but ensure this is secure in production.
+
 DIRECT_API_KEY = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=DIRECT_API_KEY)
-# 👇 MODEL SETUP
+
 def get_chat_model():
     return genai.GenerativeModel('models/gemini-flash-latest')
 
 model = get_chat_model()
-# Global variables (Note: specific to single-user local testing)
+
 chat_session = None 
 resume_text = ""
 
@@ -39,7 +38,7 @@ async def upload_resume(file: UploadFile = File(...)):
 async def start_interview(
     topic: str = Form(...), 
     level: str = Form(...), 
-    mode: str = Form(...), # Expecting "Practice" or "Real"
+    mode: str = Form(...), 
     total_questions: int = Form(...) 
 ):
     global chat_session, resume_text
@@ -55,7 +54,6 @@ async def start_interview(
     Current Resume Context: {resume_text if resume_text else "No resume provided."}
     """
 
-    # 👇 LOGIC FOR MODES
     if mode.lower() == "practice":
         # Practice Mode: Feedback immediately after every answer
         mode_instruction = """

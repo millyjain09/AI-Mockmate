@@ -37,7 +37,7 @@ const HRInterview = () => {
     }
   }, []);
 
-  // --- 1. LOGIC FIX: Initialize Session ---
+
   const startInterview = async () => {
     setIsStarted(true);
     setMessages([]);
@@ -121,7 +121,6 @@ const HRInterview = () => {
         <Navbar />
       </div>
 
-      {/* 👇 FIX: pt-16 aur gap-4 kar diya mobile ke liye, space aur kam ho jayega! */}
       <div className="relative z-10 flex-1 max-w-7xl mx-auto w-full px-4 md:px-8 flex flex-col gap-4 md:gap-8 min-h-screen pt-18 md:pt-[160px] pb-12">
         
         {/* --- TOP ROW: AVATAR & USER CAMERA --- */}

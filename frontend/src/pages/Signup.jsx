@@ -36,7 +36,6 @@ const Signup = () => {
         
         alert(`Welcome, ${res.data.user.username}! Redirecting to Home...`);
         
-        // 👇 CHANGE: Ab ye seedha Home Page (Landing Page) par le jayega
         navigate("/"); 
       }
     } catch (err) {

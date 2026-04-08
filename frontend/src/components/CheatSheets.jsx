@@ -209,7 +209,6 @@ const CheatSheets = () => {
         <Navbar />
       </div>
 
-      {/* 👇 FIX: pt-16 for mobile to remove top empty space, pb-28 to save from bottom dock */}
       <div className="relative z-10 flex-1 max-w-[1400px] mx-auto w-full px-4 md:px-6 pt-4 md:pt-[120px] pb-28 md:pb-8 flex flex-col h-[100dvh]">
         
         <div className="mb-3 md:mb-6 shrink-0 mt-2">
@@ -221,7 +220,6 @@ const CheatSheets = () => {
         <div className="flex flex-col lg:flex-row gap-4 md:gap-6 flex-1 min-h-0 overflow-hidden">
             <motion.div 
                 initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ delay: 0.2 }}
-                // 👇 FIX: Sidebar made compact & horizontally scrollable on mobile!
                 className={`w-full lg:w-[320px] flex flex-col rounded-3xl md:rounded-[2.5rem] p-4 md:p-6 shrink-0 ${waterDropGlass}`}
             >
                 <div className="relative mb-3 md:mb-6">
@@ -235,7 +233,6 @@ const CheatSheets = () => {
                     <Search size={14} className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-500" />
                 </div>
                 
-                {/* 👇 FIX: flex-row overflow-x-auto on mobile saves vertical space! */}
                 <div className="flex flex-row md:flex-wrap gap-2.5 overflow-x-auto md:overflow-y-auto custom-scrollbar md:content-start md:flex-1 pb-2">
                     {filteredTopics.map((topic) => (
                         <button 

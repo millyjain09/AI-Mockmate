@@ -16,7 +16,6 @@ import CodingTest from "./pages/CodingTest";
 import EnglishPractice from './pages/EnglishPractice';
 import HRInterview from "./pages/HRInterview";
 
-// 🔴 ADDED THIS IMPORT FOR CHEAT SHEETS
 import CheatSheets from "./components/CheatSheets"; 
 
 function App() {
@@ -25,10 +24,8 @@ function App() {
       <ThemeProvider>
       <Router>
         <Routes>
-          {/* 👇 Set Home as the default Landing Page */}
           <Route path="/" element={<Home />} />
           
-          {/* 👇 Dono routes ab apne merged AuthPage par point karenge */}
           <Route path="/login" element={<AuthPage />} />
           <Route path="/signup" element={<AuthPage />} />
           
@@ -40,7 +37,6 @@ function App() {
           <Route path="/english-practice" element={<EnglishPractice />} />
           <Route path="/hr-interview" element={<HRInterview />} />
           
-          {/* 🔴 ADDED THIS ROUTE FOR CHEAT SHEETS */}
           <Route path="/cheatsheets" element={<CheatSheets />} />
 
         </Routes>

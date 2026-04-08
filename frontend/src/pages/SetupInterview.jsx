@@ -1,15 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import Navbar from "../components/Navbar";
 import axios from "axios";
-// BUG FIX: Strictly using your original working icons (UploadCloud) to prevent crashes
 import { UploadCloud, Play, BookOpen, Clock, Settings, Briefcase, FileText, Star } from "lucide-react";
 import { motion } from "framer-motion";
+import toast, { Toaster } from "react-hot-toast"; 
+
 const API_URL = import.meta.env.VITE_API_URL || "http://127.0.0.1:8000";
+
 const SetupInterview = () => {
   const navigate = useNavigate();
   
-  // --- STATES (UNTOUCHED LOGIC) ---
   const [topic, setTopic] = useState("React JS");
   const [level, setLevel] = useState("Fresher");
   const [mode, setMode] = useState("practice"); 
@@ -27,10 +28,20 @@ const SetupInterview = () => {
     const formData = new FormData();
     formData.append("file", file);
     try {
-     await axios.post(`${API_URL}/interview/upload-resume`, formData);
-      alert("Resume Uploaded & Analyzed! ✅");
+      await axios.post(`${API_URL}/interview/upload-resume`, formData);
+      // 👇 Professional Green Notification
+      toast.success("Resume Analyzed! Ready for session.", {
+        position: "bottom-right",
+        style: {
+          background: "#111",
+          color: "#fff",
+          border: "1px solid rgba(255,255,255,0.1)",
+          fontSize: "14px",
+          fontWeight: "bold"
+        },
+      });
     } catch (error) {
-      alert("Resume upload failed.");
+      toast.error("Resume upload failed.", { position: "bottom-right" });
       console.error(error);
       setResume(null); 
     } finally {
@@ -49,15 +60,14 @@ const SetupInterview = () => {
     navigate("/interview-room");
   };
 
-  // --- REUSABLE GLASS CSS ---
   const waterDropGlass = "bg-white/[0.02] backdrop-blur-3xl border border-white/10 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.2),0_8px_32px_rgba(0,0,0,0.6)]";
   const carvedInput = "w-full bg-black/60 backdrop-blur-xl border border-white/10 rounded-2xl px-5 py-4 text-sm text-white placeholder-gray-500 focus:outline-none focus:border-white/40 focus:bg-black/80 shadow-[inset_0px_2px_10px_rgba(0,0,0,0.8)] transition-all font-medium appearance-none";
 
   return (
-    // MAIN WRAPPER
     <div className="min-h-screen bg-[#020202] text-gray-200 font-sans relative overflow-x-hidden flex flex-col">
-      
-      {/* --- AMBIENT BACKGROUND --- */}
+      {/* 👇 Notification Container Added Here */}
+      <Toaster /> 
+
       <div className="fixed inset-0 z-0 pointer-events-none">
          <div className="absolute top-[-10%] left-[-10%] w-[50vw] h-[50vw] rounded-full bg-white/[0.03] blur-[120px]"></div>
          <div className="absolute bottom-[-10%] right-[-10%] w-[40vw] h-[40vw] rounded-full bg-gray-500/[0.03] blur-[150px]"></div>
@@ -68,10 +78,8 @@ const SetupInterview = () => {
         <Navbar />
       </div>
       
-      {/* BUG FIX: Added extra padding top (pt-[140px]) so it doesn't hide behind the smart navbar */}
       <div className="relative z-10 flex-1 max-w-5xl mx-auto w-full px-6 pt-[140px] pb-16">
         
-        {/* HEADER */}
         <div className="mb-12 text-center md:text-left">
            <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/[0.05] border border-white/10 text-xs font-bold uppercase tracking-widest text-gray-400 mb-4 shadow-sm">
                <Settings size={14} /> Configuration
@@ -84,16 +92,12 @@ const SetupInterview = () => {
            </motion.p>
         </div>
 
-        {/* MAIN CONFIGURATION GRID */}
         <motion.div 
             initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.3 }}
             className={`p-6 md:p-10 rounded-[2.5rem] ${waterDropGlass} grid md:grid-cols-2 gap-10 md:gap-16`}
         >
           
-          {/* --- LEFT COLUMN --- */}
           <div className="space-y-8">
-            
-            {/* 1. Topic */}
             <div>
               <label className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
                  <Briefcase size={14}/> Target Role / Topic
@@ -108,7 +112,6 @@ const SetupInterview = () => {
               </div>
             </div>
 
-            {/* 2. Level */}
             <div>
               <label className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
                  <Star size={14}/> Difficulty Level
@@ -127,7 +130,6 @@ const SetupInterview = () => {
               </div>
             </div>
 
-            {/* 3. Resume Upload */}
             <div>
               <label className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
                   <FileText size={14}/> Context Injection
@@ -151,10 +153,7 @@ const SetupInterview = () => {
 
           </div>
 
-          {/* --- RIGHT COLUMN --- */}
           <div className="space-y-8">
-            
-            {/* 4. Question Count */}
             <div>
               <label className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
                  <Clock size={14}/> Duration Parameters
@@ -174,14 +173,12 @@ const SetupInterview = () => {
               </div>
             </div>
 
-            {/* 5. Mode Selection */}
             <div>
                 <label className="flex items-center gap-2 text-[11px] font-black text-gray-400 uppercase tracking-[0.2em] mb-3 ml-1">
                     Select Mode
                 </label>
                 <div className="grid grid-cols-1 gap-4">
                     
-                    {/* Practice Mode */}
                     <div 
                         onClick={() => setMode("practice")}
                         className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 flex items-center gap-5 overflow-hidden group
@@ -201,7 +198,6 @@ const SetupInterview = () => {
                         </div>
                     </div>
 
-                    {/* Mock Mode */}
                     <div 
                         onClick={() => setMode("mock")}
                         className={`relative p-5 rounded-2xl cursor-pointer transition-all duration-300 flex items-center gap-5 overflow-hidden group
@@ -227,13 +223,12 @@ const SetupInterview = () => {
           </div>
         </motion.div>
 
-        {/* --- BOTTOM ACTION --- */}
         <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0.4 }} className="mt-10 flex justify-end">
             <button 
                 onClick={startInterview}
                 className="w-full md:w-auto bg-white/[0.1] backdrop-blur-2xl border border-white/20 shadow-[inset_0px_1px_2px_rgba(255,255,255,0.6),inset_0px_-1px_2px_rgba(0,0,0,0.5),0_10px_30px_rgba(0,0,0,0.5)] text-white px-12 py-5 rounded-2xl font-black text-sm uppercase tracking-[0.2em] hover:bg-white/[0.15] transition-all duration-300 active:scale-95 flex items-center justify-center gap-3 group"
             >
-                Initialize Protocol
+                Next
                 <Play size={16} className="group-hover:translate-x-1 transition-transform" fill="currentColor"/>
             </button>
         </motion.div>

@@ -11,16 +11,14 @@ DIRECT_API_KEY = os.getenv("GOOGLE_API_KEY")
 
 genai.configure(api_key=DIRECT_API_KEY)
 
-# 👇 SMART MODEL SELECTOR (Updated for Gemini 2.5)
+
 def get_best_model():
     try:
-        # List all models available to your API key
         available_models = []
         for m in genai.list_models():
             if 'generateContent' in m.supported_generation_methods:
                 available_models.append(m.name)
         
-        # Priority List: Updated with the latest models from your logs
         preferences = [
             "models/gemini-2.5-flash", 
             "models/gemini-2.5-pro", 

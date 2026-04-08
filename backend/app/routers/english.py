@@ -8,11 +8,10 @@ from datetime import datetime
 load_dotenv()
 router = APIRouter()
 
-# 👇 Secure Key Load
+
 api_key = os.getenv("GOOGLE_API_KEY")
 genai.configure(api_key=api_key)
 
-# 👇 CRITICAL FIX: Wahi model use karo jo Interview mein chal raha hai
 def get_model():
     # 'gemini-1.5-flash' tumhare liye 404 de raha hai.
     # Isliye hum 'gemini-flash-latest' use kar rahe hain.
@@ -20,8 +19,6 @@ def get_model():
 
 model = get_model()
 
-# History store karne ke liye global variable
-# (Production mein ye database mein hona chahiye, par abhi ke liye memory mein theek hai)
 chat_sessions = {} 
 
 @router.post("/start")
@@ -42,13 +39,10 @@ async def start_english_practice(mode: str = Form(...)):
     """
     
     try:
-        # Naya session shuru karo
         chat = model.start_chat(history=[])
         
-        # System instruction bhejo
         response = chat.send_message(instruction + "\nStart the conversation.")
         
-        # Session save karo (Ek simple ID 'current_user' use kar rahe hain abhi ke liye)
         chat_sessions['current_user'] = chat
         
         return {"message": response.text}
@@ -59,7 +53,6 @@ async def start_english_practice(mode: str = Form(...)):
 async def chat_english(message: str = Form(...)):
     global chat_sessions
     
-    # Check karo session exist karta hai ya nahi
     if 'current_user' not in chat_sessions:
         return {"message": "Session expired. Please click 'Professional' or 'Daily' again."}
     

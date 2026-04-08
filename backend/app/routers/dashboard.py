@@ -7,8 +7,7 @@ import os
 
 router = APIRouter()
 
-# --- 💾 ROBUST JSON DATABASE SETUP ---
-# 1. Get the absolute path of the directory where this file is located
+#  path of the directory where this file is located
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 # 2. Save the JSON file in the same directory so it persists
 DB_FILE = os.path.join(BASE_DIR, "user_history.json")

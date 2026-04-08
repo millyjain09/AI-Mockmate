@@ -1,13 +1,13 @@
 # backend/app/models/user.py
 from pydantic import BaseModel, EmailStr
 
-# Signup ke liye data model
+# data model for signup
 class UserCreate(BaseModel):
     username: str
     email: EmailStr
     password: str
 
-# Login ke liye data model
+# data model for login
 class UserLogin(BaseModel):
     email: EmailStr
     password: str
