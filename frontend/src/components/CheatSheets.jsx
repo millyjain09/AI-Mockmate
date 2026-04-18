@@ -29,7 +29,7 @@ const cheatSheetContent = {
   "DBMS": { description: "Database Management Systems & SQL.", pdfUrl: "/pdfs/sql.pdf" },
   "Python": { description: "Advanced Python & Data Science basics.", pdfUrl: "/pdfs/pythonq.pdf" },
   "Java": { description: "Java fundamentals & Collections Framework.", pdfUrl: "/pdfs/Java.pdf" },
-  "C++": { description: "STL containers and memory management.", pdfUrl: "/pdfs/C++.pdf" },
+  "C++": { description: "STL containers and memory management.", pdfUrl: "/C++.pdf" },
   "C": { description: "Low-level system programming.", pdfUrl: "/pdfs/C.pdf" },
   "OS": { description: "Operating Systems concepts.", pdfUrl: "/pdfs/os.pdf" },
   "HTML": { description: "HTML concepts.", pdfUrl: "/pdfs/html.pdf" },
