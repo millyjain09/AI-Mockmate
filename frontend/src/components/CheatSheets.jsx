@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, Terminal, Layers, Database, FileJson, ZoomIn, X, Bookmark, Sparkles, Cpu, BookOpen, FileText, DownloadCloud } from "lucide-react";
 import axios from "axios"; 
 import { useAuth } from "../context/AuthContext"; 
+import javapdf from '../assets/Java.pdf';
 
 const initialTopics = [
   { id: "dsa", name: "DSA", completed: 0, total: 300, icon: <Code2 size={14}/> },
@@ -28,7 +29,7 @@ const cheatSheetContent = {
   "Full Stack": { description: "End-to-end architecture and integrations.", pdfUrl: "/pdfs/mern.pdf" },
   "DBMS": { description: "Database Management Systems & SQL.", pdfUrl: "/pdfs/sql.pdf" },
   "Python": { description: "Advanced Python & Data Science basics.", pdfUrl: "/pdfs/pythonq.pdf" },
-  "Java": { description: "Java fundamentals & Collections Framework.", pdfUrl: "/pdfs/Java.pdf" },
+  "Java": { description: "Java fundamentals & Collections Framework.", pdfUrl: javapdf },
   "C++": { description: "STL containers and memory management.", pdfUrl: "/pdfs/cpp.pdf" },
   "C": { description: "Low-level system programming.", pdfUrl: "/pdfs/C.pdf" },
   "OS": { description: "Operating Systems concepts.", pdfUrl: "/pdfs/os.pdf" },
