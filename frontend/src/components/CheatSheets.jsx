@@ -385,8 +385,8 @@ const CheatSheets = () => {
                 <div className="flex-1 w-full h-full bg-[#1e1e1e]">
                     {currentContent?.pdfUrl ? (
                         <iframe 
-                          
-  src={`${window.location.origin}${currentContent.pdfUrl}#toolbar=0`} 
+                        src={`${currentContent.pdfUrl}`}
+  
  
                             className="w-full h-full border-none bg-white"
                             title={`${activeCheatSheet.name} PDF Notes`}
