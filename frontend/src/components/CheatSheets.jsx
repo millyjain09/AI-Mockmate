@@ -4,7 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Search, Code2, Terminal, Layers, Database, FileJson, ZoomIn, X, Bookmark, Sparkles, Cpu, BookOpen, FileText, DownloadCloud } from "lucide-react";
 import axios from "axios"; 
 import { useAuth } from "../context/AuthContext"; 
-import javapdf from '../assets/java.pdf';
+import javapdf from '../assets/java.pdf?url';
 
 const initialTopics = [
   { id: "dsa", name: "DSA", completed: 0, total: 300, icon: <Code2 size={14}/> },
@@ -134,6 +134,7 @@ const CheatSheets = () => {
   );
 
   const packedNodes = useMemo(() => {
+    if (!canvasRef.current) return [];
     const nodes = [];
     const sortedTopics = [...topicsState].sort((a, b) => b.total - a.total);
     
