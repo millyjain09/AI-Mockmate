@@ -388,7 +388,7 @@ const CheatSheets = () => {
                 <div className="flex-1 w-full h-full bg-[#1e1e1e]">
                     {currentContent?.pdfUrl ? (
                         <iframe
-                        src={`${currentContent.pdfUrl}#view=FitH`} 
+                        src={`${currentContent.pdfUrl}`} 
                        
   
  
