@@ -29,7 +29,7 @@ const cheatSheetContent = {
   "DBMS": { description: "Database Management Systems & SQL.", pdfUrl: "/pdfs/sql.pdf" },
   "Python": { description: "Advanced Python & Data Science basics.", pdfUrl: "/pdfs/pythonq.pdf" },
   "Java": { description: "Java fundamentals & Collections Framework.", pdfUrl: "/pdfs/Java.pdf" },
-  "C++": { description: "STL containers and memory management.", pdfUrl: "pdfs/cpp.pdf" },
+  "C++": { description: "STL containers and memory management.", pdfUrl: "/pdfs/cpp.pdf" },
   "C": { description: "Low-level system programming.", pdfUrl: "/pdfs/C.pdf" },
   "OS": { description: "Operating Systems concepts.", pdfUrl: "/pdfs/os.pdf" },
   "HTML": { description: "HTML concepts.", pdfUrl: "/pdfs/html.pdf" },
@@ -385,7 +385,9 @@ const CheatSheets = () => {
                 <div className="flex-1 w-full h-full bg-[#1e1e1e]">
                     {currentContent?.pdfUrl ? (
                         <iframe 
-                            src={`${currentContent.pdfUrl}#toolbar=0`} 
+                          
+  src={`${window.location.origin}${currentContent.pdfUrl}#toolbar=0`} 
+ 
                             className="w-full h-full border-none bg-white"
                             title={`${activeCheatSheet.name} PDF Notes`}
                         />
