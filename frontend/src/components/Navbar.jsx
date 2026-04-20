@@ -40,11 +40,21 @@ const Navbar = () => {
     navigate("/login");
   };
 
+  // const getDisplayName = () => {
+  //   if (!user) return "Guest";
+  //   if (user.username) return user.username;
+  //   return user.email.split("@")[0];
+  // };
+
   const getDisplayName = () => {
-    if (!user) return "Guest";
-    if (user.username) return user.username;
-    return user.email.split("@")[0];
-  };
+  if (!user) return "Guest";
+
+  if (user.username) return user.username;
+
+  if (user.email) return user.email.split("@")[0];
+
+  return "User";
+};
 
   const navLinks = [
     { name: "Dashboard", path: "/dashboard", icon: <LayoutDashboard size={22} /> },
