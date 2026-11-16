@@ -47,8 +47,8 @@ The platform provides dedicated modules for **Technical Interviews, HR Interview
 
 | Category | Technologies |
 |---|---|
-| Frontend | React.js, Monaco Editor, Recharts|
-| Backend | Pyhton |
+| Frontend | React.js,Framer Motion, Monaco Editor, Recharts|
+| Backend | Pyhton, Fast Api |
 | Database | Mongodb |
 | AI Integration | Google Gemini API |
 | Authentication | JWT |
