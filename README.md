@@ -52,7 +52,8 @@ The platform provides dedicated modules for **Technical Interviews, HR Interview
 | Database | Mongodb |
 | AI Integration | Google Gemini API |
 | Authentication | JWT |
-| Deployment | Vercel |
+| Frontend Deployment | Vercel |
+| Backend Deployment | Render |
 
 ## ⚙️ Getting Started
 
